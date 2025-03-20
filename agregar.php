@@ -1,4 +1,10 @@
 <?php
+session_start();
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: auth.php"); // Redirect to login page if not logged in
+    exit();
+}
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $cliente = $_POST['cliente'];
     $nif = $_POST['nif'];
@@ -29,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $responseData = json_decode($response, true);
 
     $mensaje = isset($responseData['factura_id']) ? 
-        "✅ Factura registrada correctamente (ID: " . $responseData['factura_id'] . ")" : 
+        "✅ Factura registrada correctamente (Nif: " . $responseData['factura_id'] . ")" : 
         "❌ Error al registrar la factura.";
 }
 ?>
@@ -44,36 +50,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">➕ Agregar Factura</h1>
+         <?php include("./menu.php"); ?>
+
+        <h1 class="text-center m-2 p-2 bg-primary rounded">➕ Agregar Factura</h1>
+
         <?php if (isset($mensaje)) echo "<div class='alert alert-info'>$mensaje</div>"; ?>
-        <form method="POST" class="mt-4">
-            <div class="mb-3">
-                <label class="form-label">Cliente:</label>
-                <input type="text" name="cliente" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">NIF:</label>
-                <input type="text" name="nif" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Fecha:</label>
-                <input type="date" name="fecha" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Concepto:</label>
-                <input type="text" name="concepto" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Importe (€):</label>
-                <input type="number" name="importe" class="form-control" required step="0.01">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">IVA (%):</label>
-                <input type="number" name="iva" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Registrar Factura</button>
-        </form>
-        <a href="index.php" class="btn btn-secondary mt-3">🔙 Volver al Dashboard</a>
+
+        <div class="d-flex justify-content-center mt-2">
+      
+            <form method="POST" class="mt-2 p-2 bg-primary rounded fw-bold ">
+                <div class="mb-3">
+                    <label class="form-label ">Cliente:</label>
+                    <input type="text" name="cliente" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">NIF:</label>
+                    <input type="text" name="nif" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Fecha:</label>
+                    <input type="date" name="fecha" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Concepto:</label>
+                    <input type="text" name="concepto" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Importe (€):</label>
+                    <input type="number" name="importe" class="form-control" required step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">IVA (%):</label>
+                    <input type="number" name="iva" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-info fw-bold  w-100">Registrar Factura</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
