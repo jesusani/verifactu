@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['username']) || $_SESSION['rol'] !== 'admin') {
-  //  header("Location: dashboard.php"); // Redirect to login page if not logged in or not an admin
-    //exit();
+    header("Location: dashboard.php"); // Redirect to login page if not logged in or not an admin
+    exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
