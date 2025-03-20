@@ -9,11 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username) || empty($password)) {
         echo "Por favor, completa todos los campos.";
     } else {
-        if (password_verify("Chuchi00", "$2y$10\$IDKlovcchxdv3HMlWy9mF.oGtQDTIL7ZDx.XOBbln5IjQc17/DGHG")) {
-            echo '¡Contraseña correcta!';
-        } else {
-            echo 'Contraseña incorrecta.';
-        }
+    
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
        
         // Prepare data for API request
